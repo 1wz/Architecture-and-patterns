@@ -2,6 +2,7 @@ using UnityEngine;
 namespace Asteroids
 {
     [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Collider2D))]
     internal sealed class Player : MonoBehaviour
     {
         [SerializeField] private float _speed;
@@ -11,37 +12,24 @@ namespace Asteroids
         [SerializeField] private Transform _barrel;
         [SerializeField] private float _force;
         private Camera _camera;
-        private AccelerationMove _moveTransform;
-        private IRotation _rotation;
         private Rigidbody2D _rigidbody;
-        private LookMouse _lookMouse;
-        private MoveInput _moveInput;
-        private InputAcceleration _inputAcceleration;
         private InputShoot _inputShoot;
+        private UserMoves _userMoves;
+        private UserRotates _userRotates;
+        private Collider2D _collider;
+        private HPModule _hpmolule;
+
         private void Start()
         {
             _camera = Camera.main;
             _rigidbody = GetComponent<Rigidbody2D>();
+            _collider = GetComponent<Collider2D>();
 
-            _moveTransform = new AccelerationMove(_rigidbody, _speed, _acceleration);
-            _rotation = new RotationToDir(transform);
-
-            _lookMouse = new LookMouse(_camera, transform, _rotation);
-            _moveInput = new MoveInput(_moveTransform);
-            _inputAcceleration = new InputAcceleration(_moveTransform);
+            _userRotates = new UserRotates(_camera, transform);
+            _userMoves = new UserMoves(_rigidbody, _speed, _acceleration);
             _inputShoot = new InputShoot(_bullet, _barrel,_force);
+            _hpmolule = new HPModule(_hp, _collider);
         }
 
-        private void OnCollisionEnter2D(Collision2D other)
-        {
-            if (_hp <= 0)
-            {
-                Destroy(gameObject);
-            }
-            else
-            {
-                _hp--;
-            }
-        }
     }
 }

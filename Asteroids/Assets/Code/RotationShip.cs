@@ -1,10 +1,10 @@
 using UnityEngine;
 namespace Asteroids
 {
-    internal sealed class RotationToDir : IRotation
+    internal sealed class RotationShip : IRotation
     {
         private readonly Transform _transform;
-        public RotationToDir(Transform transform)
+        public RotationShip(Transform transform)
         {
             _transform = transform;
         }

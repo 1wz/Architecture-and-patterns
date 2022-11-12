@@ -56,17 +56,18 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Code\Player.cs" />
-    <Compile Include="Assets\Code\Interfaces.cs" />
-    <Compile Include="Assets\Code\MoveTransform.cs" />
+    <Compile Include="Assets\Code\RotationShip.cs" />
     <Compile Include="Assets\Code\AccelerationMove.cs" />
-    <Compile Include="Assets\Code\RotationToDir.cs" />
+    <Compile Include="Assets\Code\UserRotates.cs" />
     <Compile Include="Assets\Code\InputObserver.cs" />
-    <Compile Include="Assets\Code\LookMouse.cs" />
-    <Compile Include="Assets\Code\UserRotation.cs" />
-    <Compile Include="Assets\Code\MoveInput.cs" />
-    <Compile Include="Assets\Code\InputAcceleration.cs" />
+    <Compile Include="Assets\Code\MoveTransform.cs" />
+    <Compile Include="Assets\Code\Player.cs" />
+    <Compile Include="Assets\Code\EventSender.cs" />
     <Compile Include="Assets\Code\InputShoot.cs" />
+    <Compile Include="Assets\Code\UserMoves.cs" />
+    <Compile Include="Assets\Code\Interfaces.cs" />
+    <Compile Include="Assets\Code\HPModule.cs" />
+    <Compile Include="Assets\Code\CollisionObserver.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
