@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Asteroids
 {
 
-    public class CollisionObserver : MonoBehaviour
+    public class CollisionObserver 
     {
         public Action<List<Collider2D>> CollisionEvent;
         Collider2D _collider;
