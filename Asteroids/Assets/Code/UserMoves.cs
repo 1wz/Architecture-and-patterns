@@ -11,7 +11,6 @@ namespace Asteroids
         public UserMoves(Rigidbody2D rigidbody, float speed, float acceleration)
         {
             _moveTransform = new AccelerationMove(rigidbody,speed,acceleration);
-            InputObserver.InputMove += Move;
             InputObserver.ShiftDown += AccelerationOn;
             InputObserver.ShiftUp += AccelerationOff;
         }
@@ -29,6 +28,15 @@ namespace Asteroids
         public void AccelerationOff()
         {
             _moveTransform.RemoveAcceleration();
+        }
+
+        public void On()
+        {
+            InputObserver.InputMove += Move;
+        }
+        public void Off()
+        {
+            InputObserver.InputMove -= Move;
         }
     }
 }

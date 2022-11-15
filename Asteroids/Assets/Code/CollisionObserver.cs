@@ -13,7 +13,6 @@ namespace Asteroids
         public CollisionObserver(Collider2D collider)
         {
             _collider = collider;
-            EventSender.UpdateEvent += OnCollision;
         }
 
         public void OnCollision()
@@ -24,6 +23,14 @@ namespace Asteroids
                 _collider.GetContacts(colliders);
                 CollisionEvent(colliders);
             }
+        }
+        public void On()
+        {
+            EventSender.UpdateEvent += OnCollision;
+        }
+        public void Off()
+        {
+            EventSender.UpdateEvent -= OnCollision;
         }
     }
 }

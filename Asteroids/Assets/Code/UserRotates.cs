@@ -14,7 +14,6 @@ namespace Asteroids
         public UserRotates(Camera camera, Transform transform)
         {
             _camera = camera;
-            InputObserver.MouseMove += Look;
             _rotation=new RotationShip(transform);
             _transform = transform;
         }
@@ -22,6 +21,15 @@ namespace Asteroids
         {
             direction = Input.mousePosition - _camera.WorldToScreenPoint(_transform.position);
             _rotation.Rotation(direction);
+        }
+
+        public void On()
+        {
+            InputObserver.MouseMove += Look;
+        }
+        public void Off()
+        {
+            InputObserver.MouseMove -= Look;
         }
     }
 }
