@@ -19,6 +19,11 @@ namespace Asteroids
         void Respawn();
         void Destroy();
     }
+
+    public interface IDamagebl
+    {
+        void Damage(float damage);
+    }
 }
 
 namespace ObjectPool

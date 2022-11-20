@@ -30,14 +30,15 @@ namespace Asteroids
         private void Awake()
         {
             _collider = GetComponent<Collider2D>();
-            _collisionObserver = new CollisionObserver(_collider);
-            _collisionObserver.CollisionEvent += AnyCollision;
-            _LODmodule = new LODmodule(transform);
-            _LODmodule.OnExitZone += Destroy;
+            _collisionObserver = new CollisionObserver(_collider,AnyCollision);
+            _LODmodule = new LODmodule(transform,Destroy);
+
         }
 
         private void AnyCollision(List<Collider2D> obj)
         {
+            IDamagebl iDamagebl = obj[0].gameObject.GetComponent<IDamagebl>();
+            if (iDamagebl!=null) iDamagebl.Damage(1);
             Destroy();
         }
     }

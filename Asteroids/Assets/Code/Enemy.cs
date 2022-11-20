@@ -7,36 +7,35 @@ namespace Asteroids
 {
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Collider2D))]
-    internal class Enemy : MonoBehaviour, IRespawn
+    internal class Enemy : MonoBehaviour, IRespawn,IDamagebl
     {
         [SerializeField] private float _hp;
         private Collider2D _collider;
         private HPModule _hpmolule;
-        private CollisionObserver _collisionObserver;
         private LODmodule _LODmodule;
 
         private void Awake()
         {
             _collider = GetComponent<Collider2D>();
 
-            _collisionObserver = new CollisionObserver(_collider);
-            _hpmolule = new HPModule(_hp, _collisionObserver);
-            _hpmolule.OnHealthIsOver += Destroy;
-            _LODmodule = new LODmodule(transform);
-            _LODmodule.OnExitZone += Destroy;
+            _hpmolule = new HPModule(_hp, Destroy);
+            _LODmodule = new LODmodule(transform,Destroy);
         }
 
         public void Respawn()
         {
-            _collisionObserver.On();
             _hpmolule.Reset();
             _LODmodule.On();
         }
         public void Destroy()
         {
-            _collisionObserver.Off();
-            SingleViewServices.ViewServices.Destroy(gameObject);
             _LODmodule.Off();
+            SingleViewServices.ViewServices.Destroy(gameObject);
+        }
+
+        public void Damage(float damage)
+        {
+            _hpmolule.Damage(damage);
         }
     }
 }

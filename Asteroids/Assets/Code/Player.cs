@@ -4,7 +4,7 @@ namespace Asteroids
 {
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Collider2D))]
-    internal sealed class Player : MonoBehaviour
+    internal sealed class Player : MonoBehaviour,IDamagebl
     {
         [SerializeField] private float _speed;
         [SerializeField] private float _acceleration;
@@ -17,9 +17,7 @@ namespace Asteroids
         private InputShoot _inputShoot;
         private UserMoves _userMoves;
         private UserRotates _userRotates;
-        private Collider2D _collider;
         private HPModule _hpmolule;
-        private CollisionObserver _collisionObserver;
 
         public static Func<Player> GetPlayer { get; private set; }
         private void Awake()
@@ -35,13 +33,11 @@ namespace Asteroids
 
             _camera = Camera.main;
             _rigidbody = GetComponent<Rigidbody2D>();
-            _collider = GetComponent<Collider2D>();
 
             _userRotates = new UserRotates(_camera, transform);
             _userMoves = new UserMoves(_rigidbody, _speed, _acceleration);
             _inputShoot = new InputShoot(_bullet, _barrel,_force);
-            _collisionObserver = new CollisionObserver(_collider);
-            _hpmolule = new HPModule(_hp, _collisionObserver);
+            _hpmolule = new HPModule(_hp, Destroy);
             Respawn();
         }
 
@@ -54,16 +50,18 @@ namespace Asteroids
             _userRotates.On();
             _userMoves.On();
             _inputShoot.On();
-            _collisionObserver.On();
             _hpmolule.Reset();
         }
         public void Destroy()
         {
-
             _userRotates.Off();
             _userMoves.Off();
             _inputShoot.Off();
-            _collisionObserver.Off();
+        }
+
+        public void Damage(float damage)
+        {
+            _hpmolule.Damage(damage);
         }
     }
 }

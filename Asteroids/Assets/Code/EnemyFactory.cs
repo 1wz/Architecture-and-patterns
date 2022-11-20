@@ -15,19 +15,14 @@ namespace Asteroids
         }
         public GameObject CreateEnemy(Vector2 position, Quaternion rotation)
         {
-            try
-            {
 
                 var enemy = SingleViewServices.ViewServices.Instantiate<Transform>(_prefab);
                 enemy.position = position;
                 enemy.rotation = rotation;
-                enemy.GetComponent<IRespawn>().Respawn();
+                var irespawn = enemy.GetComponent<IRespawn>();
+                    if(irespawn!=null)irespawn.Respawn();
                 return enemy.gameObject;
-            }
-            catch(InvalidOperationException e)
-            {
-                throw new Exception("Only IRespawn objects can be created: "+e.Message);
-            }
+
         }
     }
 }

@@ -15,9 +15,10 @@ namespace Asteroids
 
         private float _distance;
         Transform _transform;
-        public LODmodule(Transform transform)
+        public LODmodule(Transform transform,Action onExitZone)
         {
             _transform = transform;
+            OnExitZone += onExitZone;
         }
         public void CheckZone()
         {

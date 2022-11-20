@@ -11,13 +11,12 @@ namespace Asteroids
         public float max_hp;
         public float _hp { get; private set; }
         private CollisionObserver _collisionObserver;
-        public HPModule(float HP,CollisionObserver collisionObserver)
+
+        public HPModule(float HP,Action onHealthIsOver)
         {
             max_hp = HP;
             _hp = max_hp;
-            _collisionObserver = collisionObserver;
-            _collisionObserver.CollisionEvent += Damage;
-            
+            OnHealthIsOver += onHealthIsOver;
         }
 
         public void  Reset()
@@ -25,15 +24,12 @@ namespace Asteroids
             _hp = max_hp;
         }
 
-        public void Damage(List<Collider2D> colisionObj)
+        public void Damage(float damage)
         {
+            _hp -= damage;
             if (_hp <= 0)
             {
                 OnHealthIsOver?.Invoke();
-            }
-            else
-            {
-                _hp--;
             }
         }
 
