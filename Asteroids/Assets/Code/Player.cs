@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 namespace Asteroids
 {
@@ -19,6 +20,7 @@ namespace Asteroids
         private UserRotates _userRotates;
         private HPModule _hpmolule;
 
+
         public static Func<Player> GetPlayer { get; private set; }
         private void Awake()
         {
@@ -37,7 +39,9 @@ namespace Asteroids
             _userRotates = new UserRotates(_camera, transform);
             _userMoves = new UserMoves(_rigidbody, _speed, _acceleration);
             _inputShoot = new InputShoot(_bullet, _barrel,_force);
-            _hpmolule = new HPModule(_hp, Destroy);
+            _hpmolule = new HPModule(_hp, null);
+
+
             Respawn();
         }
 

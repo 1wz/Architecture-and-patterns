@@ -10,13 +10,11 @@ namespace Asteroids
     internal class Enemy : MonoBehaviour, IRespawn,IDamagebl
     {
         [SerializeField] private float _hp;
-        private Collider2D _collider;
         private HPModule _hpmolule;
         private LODmodule _LODmodule;
 
         private void Awake()
         {
-            _collider = GetComponent<Collider2D>();
 
             _hpmolule = new HPModule(_hp, Destroy);
             _LODmodule = new LODmodule(transform,Destroy);

@@ -10,7 +10,6 @@ namespace Asteroids
         public Action OnHealthIsOver;
         public float max_hp;
         public float _hp { get; private set; }
-        private CollisionObserver _collisionObserver;
 
         public HPModule(float HP,Action onHealthIsOver)
         {

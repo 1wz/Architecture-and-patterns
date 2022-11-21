@@ -70,6 +70,7 @@
     <Compile Include="Assets\Code\SimpleTimer.cs" />
     <Compile Include="Assets\Code\EventSender.cs" />
     <Compile Include="Assets\Code\InputShoot.cs" />
+    <Compile Include="Assets\Code\GameStarter.cs" />
     <Compile Include="Assets\Code\UserMoves.cs" />
     <Compile Include="Assets\Code\ViewServices.cs" />
     <Compile Include="Assets\Code\Enemy.cs" />
@@ -79,7 +80,6 @@
     <Compile Include="Assets\Code\HPModule.cs" />
     <Compile Include="Assets\Code\CameraTrack.cs" />
     <Compile Include="Assets\Code\LODmodule.cs" />
-    <Compile Include="Assets\Code\GameStarter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\DeepSpaceSkyboxPack\GalaxyFire\Galaxy Fire Skybox Readme.txt" />

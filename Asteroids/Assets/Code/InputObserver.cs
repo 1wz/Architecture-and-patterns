@@ -7,34 +7,45 @@ using UnityEngine.UIElements;
 
 namespace Asteroids
 {
-    public class InputObserver: MonoBehaviour
+    public class InputObserver:IDisposable
     {
-        public static Action<float, float> InputMove;
-        public static Action ShiftUp;
-        public static Action ShiftDown;
-        public static Action Fire1;
-        public static Action MouseMove;
+        public InputObserver()
+        {
+            EventSender.UpdateEvent += Update;
+        }
+
+        public static event Action<float, float> InputMove;
+        public static event Action ShiftUp;
+        public static event Action  ShiftDown;
+        public static event Action  Fire1;
+        public static event Action  MouseMove;
+
+        public void Dispose()
+        {
+            EventSender.UpdateEvent -= Update;
+        }
+
         private void Update()
         {
             if(Input.GetAxis("Horizontal")!=0||Input.GetAxis("Vertical") != 0)
             {
-                InputMove(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+                InputMove?.Invoke(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
             }
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
-                ShiftDown();
+                ShiftDown?.Invoke();
             }
             if (Input.GetKeyUp(KeyCode.LeftShift))
             {
-                ShiftUp();
+                ShiftUp?.Invoke();
             }
             if (Input.GetButtonDown("Fire1"))
             {
-                Fire1();
+                Fire1?.Invoke();
             }
             if(Input.GetAxis("Mouse X")!=0||Input.GetAxis("Mouse Y") != 0)
             {
-                MouseMove();
+                MouseMove?.Invoke();
             }
         }
     }

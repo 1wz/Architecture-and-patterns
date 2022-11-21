@@ -4,25 +4,24 @@ using UnityEngine;
 
 namespace Asteroids
 {
-    public class RespawnEnemy : MonoBehaviour
+    public class RespawnEnemy
     {
-        [SerializeField]
-        GameObject prefab;
-        [SerializeField]
-        float time = 1;
-        [SerializeField]
-        float Speed = 5;
-        [SerializeField]
-        [Range(0, 1)]
-        float Spread = 0.5f;
+        GameObject _prefab;
+        float _time = 1;
+        float _Speed = 5;
+        float _Spread = 0.5f;
         SimpleTimer _simpleTimer;
         EnemyFactory _enemyFactory;
-        void Start()
+        public  RespawnEnemy(GameObject prefab,float time,float enemySpeed,float speedSpread)
         {
+            _prefab = prefab;
+            _time = time;
+            _Speed = enemySpeed;
+            _Spread = speedSpread>=0&&speedSpread<=1?speedSpread:0;
             _simpleTimer = new SimpleTimer();
-            _enemyFactory = new EnemyFactory(prefab);
+            _enemyFactory = new EnemyFactory(_prefab);
             _simpleTimer.OnTimesUp += Respawn;
-            _simpleTimer.Set(time);
+            _simpleTimer.Set(_time);
         }
 
         private void Respawn()
@@ -31,9 +30,9 @@ namespace Asteroids
             Vector2 position=(Vector2)Player.GetPlayer().transform.position+direction * LODmodule.minLODdist;
             Quaternion rotation = RotationShip.RotationToDir(-direction);
             GameObject enemy=_enemyFactory.CreateEnemy(position,rotation);
-            Vector2 force = (-direction + Random.insideUnitCircle * Spread)*Speed;
+            Vector2 force = (-direction + Random.insideUnitCircle * _Spread)*_Speed;
             enemy.GetComponent<Rigidbody2D>().AddForce(force);
-            _simpleTimer.Set(time);
+            _simpleTimer.Set(_time);
         }
     }
 }
