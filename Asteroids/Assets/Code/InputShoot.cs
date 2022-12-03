@@ -9,19 +9,20 @@ namespace Asteroids
 
         Transform _barrel;
         float _force;
-        EnemyFactory _enemyFactory;
+        Builder _builder;
         public InputShoot(Bullet bullet, Transform barrel, float force)
         {
 
             _barrel = barrel;
             _force = force;
-            _enemyFactory = new EnemyFactory(bullet.gameObject);
+            _builder = ServiceLocator.Resolve<Builder>();
         }
 
         public void Shoot()
         {
-           var bullet= _enemyFactory.CreateEnemy(_barrel.position, _barrel.rotation);
-            bullet.GetComponent<Rigidbody2D>().AddForce(_barrel.up * _force,ForceMode2D.Impulse);
+            var force = _barrel.up * _force;
+             _builder.Build<Bullet>(_barrel.position, _barrel.rotation, force);
+
         }
 
         public void On()

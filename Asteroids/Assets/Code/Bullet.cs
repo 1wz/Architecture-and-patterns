@@ -6,40 +6,39 @@ using ObjectPool;
 
 namespace Asteroids
 {    
-    [RequireComponent(typeof(Rigidbody2D))]
-    [RequireComponent(typeof(Collider2D))]
-    public class Bullet : MonoBehaviour,IRespawn
-    {
-        private Collider2D _collider;
-        private CollisionObserver _collisionObserver;
-        private LODmodule _LODmodule;
 
+    public class Bullet : IRespawn
+    {
+
+        private LODmodule _LODmodule;
+        public GameObject View { get; private set; }
         public void Destroy()
         {
-            _collisionObserver.Off();
+            View.SetActive(false);
             _LODmodule.Off();
-            SingleViewServices.ViewServices.Destroy(gameObject);
+            ServiceLocator.Resolve<ViewServices>().Destroy(this);
         }
 
         public void Respawn()
         {
-            _collisionObserver.On();
+            View.SetActive(true);
             _LODmodule.On();
         }
 
-        private void Awake()
+        public Bullet()
         {
-            _collider = GetComponent<Collider2D>();
-            _collisionObserver = new CollisionObserver(_collider,AnyCollision);
-            _LODmodule = new LODmodule(transform,Destroy);
+            View= UnityEngine.Object.Instantiate((GameObject)Resources.Load("Bullet"));
+            var _collider = View.GetComponent<Collider2D>();
+            ServiceLocator.Resolve<CollisionService2D>().AddListener(this, _collider, AnyCollision);
+            _LODmodule = new LODmodule(View.transform,Destroy);
 
         }
 
-        private void AnyCollision(List<Collider2D> obj)
+        private void AnyCollision(List<object> obj)
         {
-            IDamagebl iDamagebl = obj[0].gameObject.GetComponent<IDamagebl>();
-            if (iDamagebl!=null) iDamagebl.Damage(1);
+            if (obj[0] is IDamagebl idamagebl) idamagebl.Damage(1);
             Destroy();
         }
+
     }
 }

@@ -5,30 +5,32 @@ using ObjectPool;
 
 namespace Asteroids
 {
-    [RequireComponent(typeof(Rigidbody2D))]
-    [RequireComponent(typeof(Collider2D))]
-    internal class Enemy : MonoBehaviour, IRespawn,IDamagebl
+
+    internal class Enemy :  IRespawn,IDamagebl
     {
-        [SerializeField] private float _hp;
+        public const float _hp=1f;
         private HPModule _hpmolule;
         private LODmodule _LODmodule;
-
-        private void Awake()
+        public GameObject View { get; private set; } 
+        public Enemy()
         {
-
+            View= UnityEngine.Object.Instantiate((GameObject)Resources.Load("Enemy"));
             _hpmolule = new HPModule(_hp, Destroy);
-            _LODmodule = new LODmodule(transform,Destroy);
+            _LODmodule = new LODmodule(View.transform,Destroy);
+            ServiceLocator.Resolve<CollisionService2D>().AddListener(this, View.GetComponent<Collider2D>(), null);
         }
 
         public void Respawn()
         {
+            View.SetActive(true);
             _hpmolule.Reset();
             _LODmodule.On();
         }
         public void Destroy()
         {
+            View.SetActive(false);
             _LODmodule.Off();
-            SingleViewServices.ViewServices.Destroy(gameObject);
+            ServiceLocator.Resolve<ViewServices>().Destroy(this);
         }
 
         public void Damage(float damage)

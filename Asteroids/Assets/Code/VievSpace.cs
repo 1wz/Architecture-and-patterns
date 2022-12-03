@@ -13,7 +13,7 @@ namespace Asteroids
 
         public ViewSpace(float speed)
         {
-            player = Player.GetPlayer().GetComponent<Rigidbody2D>();
+            player = ServiceLocator.Resolve<Player>().View.GetComponent<Rigidbody2D>();
             Speed = speed;
             View= UnityEngine.Object.Instantiate((GameObject)Resources.Load("ViewSpace"));
             EventSender.UpdateEvent += Update;

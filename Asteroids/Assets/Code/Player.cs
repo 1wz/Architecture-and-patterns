@@ -3,64 +3,58 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace Asteroids
 {
-    [RequireComponent(typeof(Rigidbody2D))]
-    [RequireComponent(typeof(Collider2D))]
-    internal sealed class Player : MonoBehaviour,IDamagebl
+    internal sealed class Player :IDamagebl
     {
-        [SerializeField] private float _speed;
-        [SerializeField] private float _acceleration;
-        [SerializeField] private float _hp;
-        [SerializeField] private Bullet _bullet;
-        [SerializeField] private Transform _barrel;
-        [SerializeField] private float _force;
+        private float _speed;
+        private float _acceleration;
+        private float _hp;
+        private Bullet _bullet;
+        private Transform _barrel;
+        private float _force;
         private Camera _camera;
         private Rigidbody2D _rigidbody;
-        private InputShoot _inputShoot;
-        private UserMoves _userMoves;
-        private UserRotates _userRotates;
+        private InputShoot _inputShootModule;
+        private UserMoves _inputMovesModele;
+        private UserRotates _inputRotatesModule;
         private HPModule _hpmolule;
+        public GameObject View { get; private set; }
 
-
-        public static Func<Player> GetPlayer { get; private set; }
-        private void Awake()
+        public Player(float speed, float acceleration,float hp,Bullet bullet, float force)
         {
-            if (GetPlayer != null)
-            {
-                throw new Exception("There is more than one player on stage!");
-            }
-            else
-            {
-                GetPlayer += GetThis;
-            }
+            _speed = speed;
+            _acceleration = acceleration;
+            _hp = hp;
+            _bullet = bullet;
+            _force = force;
+
+            View= UnityEngine.Object.Instantiate((GameObject)Resources.Load("Player"));
 
             _camera = Camera.main;
-            _rigidbody = GetComponent<Rigidbody2D>();
-
-            _userRotates = new UserRotates(_camera, transform);
-            _userMoves = new UserMoves(_rigidbody, _speed, _acceleration);
-            _inputShoot = new InputShoot(_bullet, _barrel,_force);
+            _rigidbody = View.GetComponent<Rigidbody2D>();
+            _barrel = View.transform.GetChild(0);
+            _inputRotatesModule = new UserRotates(_camera, View.transform);
+            _inputMovesModele = new UserMoves(_rigidbody, _speed, _acceleration);
+            _inputShootModule = new InputShoot(_bullet, _barrel,_force);
             _hpmolule = new HPModule(_hp, null);
 
 
             Respawn();
         }
 
-        public Player GetThis()
-        {
-            return this;
-        }
         public void Respawn()
         {
-            _userRotates.On();
-            _userMoves.On();
-            _inputShoot.On();
+            View.SetActive(true);
+            _inputRotatesModule.On();
+            _inputMovesModele.On();
+            _inputShootModule.On();
             _hpmolule.Reset();
         }
         public void Destroy()
         {
-            _userRotates.Off();
-            _userMoves.Off();
-            _inputShoot.Off();
+            View.SetActive(false);
+            _inputRotatesModule.Off();
+            _inputMovesModele.Off();
+            _inputShootModule.Off();
         }
 
         public void Damage(float damage)

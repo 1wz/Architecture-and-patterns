@@ -5,30 +5,30 @@ using UnityEngine;
 
 namespace ObjectPool
 {
-    internal sealed class ViewServices : IViewServices
+    internal sealed class ViewServices
     {
-        private readonly Dictionary<string, ObjectPool> _viewCache
-            = new Dictionary<string, ObjectPool>(12);
+        private readonly Dictionary<Type, IObjectPool> _viewCache = new Dictionary<Type, IObjectPool>(12);
 
-        public T Instantiate<T>(GameObject prefab)
+        public T Instantiate<T>() where T : new()
         {
-            if (!_viewCache.TryGetValue(prefab.name, out ObjectPool viewPool))
-            {
-                viewPool = new ObjectPool(prefab);
-                _viewCache[prefab.name] = viewPool;
-            }
-
-            if (viewPool.Pop().TryGetComponent(out T component))
-            {
-                return component;
-            }
-
-            throw new InvalidOperationException($"{typeof(T)} not found");
+                return GetOrAdd<T>().Pop();
         }
 
-        public void Destroy(GameObject value)
+        public void Destroy<T>(T value) where T : new()
         {
-            _viewCache[value.name].Push(value);
+            GetOrAdd<T>().Push(value);
+        }
+
+        private ObjectPool<T> GetOrAdd<T>() where T : new()
+        {
+            if (!_viewCache.TryGetValue(typeof(T), out IObjectPool viewPool))
+            {
+                viewPool = new ObjectPool<T>();
+                _viewCache[typeof(T)] = viewPool;
+            }
+
+                return (ObjectPool<T>)viewPool;
         }
     }
+
 }
