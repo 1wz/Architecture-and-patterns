@@ -57,17 +57,36 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Code\RotationShip.cs" />
+    <Compile Include="Assets\Code\Bullet.cs" />
+    <Compile Include="Assets\Code\SingleViewServices.cs" />
     <Compile Include="Assets\Code\AccelerationMove.cs" />
+    <Compile Include="Assets\Code\RespawnEnemy.cs" />
+    <Compile Include="Assets\Code\CollisionObserver.cs" />
     <Compile Include="Assets\Code\UserRotates.cs" />
     <Compile Include="Assets\Code\InputObserver.cs" />
+    <Compile Include="Assets\Code\ObjectPool.cs" />
     <Compile Include="Assets\Code\MoveTransform.cs" />
     <Compile Include="Assets\Code\Player.cs" />
+    <Compile Include="Assets\Code\SimpleTimer.cs" />
     <Compile Include="Assets\Code\EventSender.cs" />
     <Compile Include="Assets\Code\InputShoot.cs" />
+    <Compile Include="Assets\Code\GameStarter.cs" />
     <Compile Include="Assets\Code\UserMoves.cs" />
+    <Compile Include="Assets\Code\ViewServices.cs" />
+    <Compile Include="Assets\Code\Enemy.cs" />
+    <Compile Include="Assets\Code\VievSpace.cs" />
+    <Compile Include="Assets\Code\EnemyFactory.cs" />
     <Compile Include="Assets\Code\Interfaces.cs" />
     <Compile Include="Assets\Code\HPModule.cs" />
-    <Compile Include="Assets\Code\CollisionObserver.cs" />
+    <Compile Include="Assets\Code\CameraTrack.cs" />
+    <Compile Include="Assets\Code\LODmodule.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\DeepSpaceSkyboxPack\GalaxyFire\Galaxy Fire Skybox Readme.txt" />
+    <None Include="Assets\DeepSpaceSkyboxPack\DiverseSpace\Diverse Space Skybox Readme.txt" />
+    <None Include="Assets\DeepSpaceSkyboxPack\GalacticGreen\Galactic Green Skybox Readme.txt" />
+    <None Include="Assets\DKP_PixelArt\PixelArtStarshipPackage_TerranFleet\PixelArtStarshipPackage_TerranFleet_Info.txt" />
+    <None Include="Assets\Galaxia Sprite Pack #1\README.txt" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

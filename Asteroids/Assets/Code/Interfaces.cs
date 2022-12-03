@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ObjectPool;
 
 namespace Asteroids
 {
@@ -13,6 +14,23 @@ namespace Asteroids
     {
         void Rotation(Vector3 direction);
     }
+    internal interface IRespawn
+    {
+        void Respawn();
+        void Destroy();
+    }
 
+    public interface IDamagebl
+    {
+        void Damage(float damage);
+    }
 }
 
+namespace ObjectPool
+{
+    public interface IViewServices
+    {
+        T Instantiate<T>(GameObject prefab);
+        void Destroy(GameObject value);
+    }
+}

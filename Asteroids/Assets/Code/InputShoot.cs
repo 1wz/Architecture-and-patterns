@@ -6,21 +6,31 @@ namespace Asteroids
 {
     public class InputShoot
     {
-        Rigidbody2D _bullet;
+
         Transform _barrel;
         float _force;
-        public InputShoot(Rigidbody2D bullet, Transform barrel, float force)
+        EnemyFactory _enemyFactory;
+        public InputShoot(Bullet bullet, Transform barrel, float force)
         {
-            _bullet = bullet;
+
             _barrel = barrel;
             _force = force;
-            InputObserver.Fire1 += Shoot;
+            _enemyFactory = new EnemyFactory(bullet.gameObject);
         }
 
         public void Shoot()
         {
-            var temAmmunition = Object.Instantiate(_bullet, _barrel.position, _barrel.rotation);
-            temAmmunition.AddForce(_barrel.up * _force);
+           var bullet= _enemyFactory.CreateEnemy(_barrel.position, _barrel.rotation);
+            bullet.GetComponent<Rigidbody2D>().AddForce(_barrel.up * _force,ForceMode2D.Impulse);
+        }
+
+        public void On()
+        {
+            InputObserver.Fire1 += Shoot;
+        }
+        public void Off()
+        {
+            InputObserver.Fire1 -= Shoot;
         }
     }
 }

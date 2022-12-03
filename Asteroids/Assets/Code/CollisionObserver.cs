@@ -10,13 +10,13 @@ namespace Asteroids
     {
         public Action<List<Collider2D>> CollisionEvent;
         Collider2D _collider;
-        public CollisionObserver(Collider2D collider)
+        public CollisionObserver(Collider2D collider,Action<List<Collider2D>> onCollision)
         {
             _collider = collider;
-            EventSender.UpdateEvent += OnCollision;
+            CollisionEvent += onCollision;
         }
 
-        public void OnCollision()
+        public void CollisionCheck()
         {
             if (_collider.IsTouchingLayers())
             {
@@ -24,6 +24,14 @@ namespace Asteroids
                 _collider.GetContacts(colliders);
                 CollisionEvent(colliders);
             }
+        }
+        public void On()
+        {
+            EventSender.UpdateEvent += CollisionCheck;
+        }
+        public void Off()
+        {
+            EventSender.UpdateEvent -= CollisionCheck;
         }
     }
 }
