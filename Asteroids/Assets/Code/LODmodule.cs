@@ -22,7 +22,7 @@ namespace Asteroids
         }
         public void CheckZone()
         {
-            if (Vector2.Distance(Player.GetPlayer().transform.position, _transform.position) > maxLODdist)
+            if (Vector2.Distance(ServiceLocator.Resolve<Player>().View.transform.position, _transform.position) > maxLODdist)
                 OnExitZone();
         }
         public void On()

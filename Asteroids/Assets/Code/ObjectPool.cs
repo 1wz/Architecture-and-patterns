@@ -5,51 +5,33 @@ using Object = UnityEngine.Object;
 
 namespace ObjectPool
 {
-    internal sealed class ObjectPool : IDisposable
+    internal interface IObjectPool
     {
-        private readonly Stack<GameObject> _stack = new Stack<GameObject>();
-        private readonly GameObject _prefab;
-        private readonly Transform _root;
+    }
+    internal sealed class ObjectPool<T> :IObjectPool where T: new()
+    {
+        private readonly Stack<T> _stack = new Stack<T>();
 
-        public ObjectPool(GameObject prefab)
+        public T Pop()
         {
-            _prefab = prefab;
-            _root = new GameObject($"[{_prefab.name}]").transform;
-        }
-
-        public GameObject Pop()
-        {
-            GameObject go;
+            T objct;
             if (_stack.Count == 0)
             {
-                go = Object.Instantiate(_prefab);
-                go.name = _prefab.name;
+                objct = new T();
             }
             else
             {
-                go = _stack.Pop();
+                objct = _stack.Pop();
             }
-            go.SetActive(true);
-            go.transform.SetParent(null);
-            return go;
+
+            return objct;
         }
 
-        public void Push(GameObject go)
+        public void Push(T objct)
         {
-            if(_stack.Contains(go)) throw new Exception("re-deleting an object: " + go.name);
-            _stack.Push(go);
-            go.transform.SetParent(_root);
-            go.SetActive(false);
+            if(_stack.Contains(objct)) throw new Exception("re-deleting an object: " + nameof(objct));
+            _stack.Push(objct);
         }
 
-        public void Dispose()
-        {
-            for (var i = 0; i < _stack.Count; i++)
-            {
-                var gameObject = _stack.Pop();
-                Object.Destroy(gameObject);
-            }
-            Object.Destroy(_root.gameObject);
-        }
     }
 }

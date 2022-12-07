@@ -9,10 +9,10 @@ namespace Asteroids
         Transform player;
         void Start()
         {
-            player = Player.GetPlayer().transform;
+            player = ServiceLocator.Resolve<Player>().View.transform;
         }
 
-        // Update is called once per frame
+
         void Update()
         {
             transform.position=new Vector3(player.position.x, player.position.y, transform.position.z);
